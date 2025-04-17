@@ -17,17 +17,41 @@ public class AnimationStateController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool isrunning = animator.GetBool("isRunning");
         bool isWalking = animator.GetBool(isWalkingHash);
         bool forwardPressed = Input.GetKey("w");
-        // Handle walking animation
-        if (forwardPressed && !isWalking)
+        bool runPressed = Input.GetKey("left shift");
+
+        // if player presses w key
+        if (!isWalking && forwardPressed)
         {
-            animator.SetBool(isWalkingHash, true);
+            // then set the isWalking boolean to be true
+            animator. SetBool(isWalkingHash, true);
         }
-        //if player is not pressing w stop 
-        if (!forwardPressed && isWalking)
+        
+        // if player is not pressing w key
+        if (isWalking && !forwardPressed)
         {
+            // then set the isWalking boolean to be false
             animator.SetBool(isWalkingHash, false);
         }
+       
+
+        // if player is walking and presses left shift
+        if (!isrunning && (forwardPressed && runPressed))
+        {
+            // then set the isRunning boolean to be true
+            animator.SetBool("isRunning", true);
+        }
+
+        
+
+        // if player stops running or stops walking
+        if (isrunning && (!forwardPressed || !runPressed))
+        {
+            // then set the isRunning boolean to be false
+            animator.SetBool("isRunning", false);
+            animator.SetBool(isWalkingHash, true);
+        }        
     }
 }
